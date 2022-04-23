@@ -1,0 +1,6 @@
+This email is sent to : testing2@gmail.com 
+This email subject is :testing@ 
+This email sender is : manager@gmail.com 
+This email is sent to : testing2@gmail.com 
+This email subject is :testing2 
+This email sender is : manager@gmail.com 
