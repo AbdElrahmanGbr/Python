@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 style="color: brown; background-color: burlywood;"><b>Hello From My very first application</b></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
