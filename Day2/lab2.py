@@ -17,6 +17,8 @@ cur.execute('''CREATE TABLE IF NOT EXISTS employee(
             salary int not null,
             is_manager int
             );''')
+# create email table
+cur.execute("create table if not exists email (mailto varchar(255), subject varchar(255), sender varchar(255))")
 mydb.commit()  # commit the changes to the database
 
 
@@ -98,13 +100,6 @@ class Employee(Person):  # Employee class to store employee information
     def getsalary(self):  # getter method for salary attribute of Employee class
         return self.salary
 
-    def setemail(self, email):  # setter method for email attribute of Employee class
-        # regular expression to check if the email is valid
-        if(re.search('^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', email)):
-            self.email = email  # if the email is valid, set the email attribute of the Employee class
-        else:
-            print("Invalid Email")
-
     def work(self, hours):  # setter method for work attribute of Employee class
         if hours == 8:  # if the hours are 8, set the workmood attribute of the Employee class to 'happy' and so on
             self.workmood = 'happy'
@@ -116,15 +111,6 @@ class Employee(Person):  # Employee class to store employee information
             self.workmood = 'tired'
             print('your workmood changed to tired')
         return self.workmood
-
-    # # setter method for sendemail attribute of Employee class
-    # def sendemail(self, to, subject, sender):
-    #     f = open('email.txt', 'w')  # open the email.txt file in write mode
-    #     # write the email to the file
-    #     f.write(f'This email is sent to : {to} \n')
-    #     f.write(f'This email subject is :{subject} \n')
-    #     f.write(f'This email sender is : {sender} \n')
-    #     f.close()  # close the file
 
 
 class Office:  # Office class to store office information
@@ -165,12 +151,28 @@ class Office:  # Office class to store office information
         print("employee fired")
         mydb.commit()
 
-    def send_email(self, to, subject, sender): # setter method for send_email attribute of Office class
-        f = open('email.txt', 'a')  # open the email.txt file in append mode
-        f.write(f'This email is sent to : {to} \n')
-        f.write(f'This email subject is :{subject} \n')
-        f.write(f'This email sender is : {sender} \n')
-        f.close()
+    def update_employee(self, id, full_name, salary, is_manager):
+        # execute the query to update the employee with the given id
+        cur.execute(f"update employee set full_name='{full_name}', salary={salary}, is_manager={is_manager} where id={id}")
+        print("employee updated")
+        mydb.commit()
+
+    def send_email(self, mailto, subject, sender):
+        # validation for the email with regex
+        if re.match(r'^[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]+\.[a-zA-Z]{2,5}$', mailto and sender):
+            # execute the query to insert the email to the database
+            cur.execute(f"insert into email (mailto, subject, sender) values ('{mailto}', '{subject}', '{sender}')")
+            print("email sent")
+            mydb.commit()
+            f = open('email.txt', 'a')  # open the email.txt file in append mode
+            f.write(f'To: {mailto}\n')  # write the To: email address to the file
+            f.write(f'Subject: {subject}\n')  # write the Subject: email address to the file
+            f.write(f'From: {sender}\n')  # write the From: email address to the file
+            f.write('\n')  # write a new line to the file
+            f.close()  # close the file
+        else:
+            print("invalid email")
+            
 
 # o=Office()
 # print(o.get_all_employees())
@@ -186,8 +188,9 @@ while flag:  # loop to keep the program running
     2.Display All Employees
     3.Display Employee by ID
     4.Fire Employee
-    5.Send Email
-    6.Exit/Quit
+    5.Update Employee
+    6.Send Email
+    7.Exit/Quit
     """)
     flag = input(
         "What would you like to do? ")  # ask the user what they would like to do
@@ -199,7 +202,8 @@ while flag:  # loop to keep the program running
         id = input("Enter your id: ")
         full_name = input("Enter your full name: ")
         salary = input("Enter your salary: ")
-        is_manager = input("Is this employee a manager? (1 for yes, 0 for no): ")
+        is_manager = input(
+            "Is this employee a manager? (1 for yes, 0 for no): ")
         # call the hire method of the Office class to add the employee to the database
         newEmployee.hire(id, full_name, salary, is_manager)
     elif flag == "2":  # if the user wants to get all the employees
@@ -216,14 +220,23 @@ while flag:  # loop to keep the program running
         id = input("Enter your id: ")
         # call the fire method of the Office class to fire an employee from the database
         newEmployee.fire(id)
-    elif flag == "5":  # if the user wants to send an email
+    elif flag == "5":  # if the user wants to update an employee
         newEmployee = Office()  # create an object of the Office class
-        to = input("Enter the email address of the recipient: ")
+        id = input("Enter your id: ")
+        full_name = input("Enter your full name: ")
+        salary = input("Enter your salary: ")
+        is_manager = input(
+            "Is this employee a manager? (1 for yes, 0 for no): ")
+        # call the update_employee method of the Office class to update an employee from the database
+        newEmployee.update_employee(id, full_name, salary, is_manager)
+    elif flag == "6":  # if the user wants to send an email
+        newEmployee = Office()  # create an object of the Office class
+        mailto = input("Enter the email address of the recipient: ")
         subject = input("Enter the subject of the email: ")
         sender = input("Enter your email address: ")
         # call the sendemail method of the Office class to send an email
-        newEmployee.send_email(to, subject, sender)
-    elif flag == "6":  # if the user wants to exit the program
+        newEmployee.send_email(mailto, subject, sender)
+    elif flag == "7":  # if the user wants to exit the program
         print("Thank you for using our program")
         flag = False  # set the flag to false to exit the loop
     elif flag != "":  # if the user enters something other than 1,2,3

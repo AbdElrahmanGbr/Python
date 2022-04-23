@@ -4,3 +4,23 @@ This email sender is : manager@gmail.com
 This email is sent to : testing2@gmail.com 
 This email subject is :testing2 
 This email sender is : manager@gmail.com 
+This email is sent to : testing 
+This email subject is :testing 
+This email sender is : manager
+
+To: testingval@gmail.com
+Subject: testingval
+From: manager@gmail.com
+
+To: testingval@gmail.com
+Subject: testingValidation
+From: manager@gmail.com
+
+To: testing validation@gmail.com
+Subject: fsafasf
+From: fasfas
+
+To: testingvalidation@gmail.com
+Subject: testingvalidation for both sender and mail to
+From: manager@gmail.com
+
