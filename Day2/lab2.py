@@ -174,13 +174,6 @@ class Office:  # Office class to store office information
             print("invalid email")
             
 
-# o=Office()
-# print(o.get_all_employees())
-# print(o.get_employee('1'))
-# print(o.hire(3,'sherif',10000,1))
-# # print(o.fire('3'))
-
-
 flag = True
 while flag:  # loop to keep the program running
     print("""
