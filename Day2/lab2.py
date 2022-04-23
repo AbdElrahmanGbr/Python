@@ -159,7 +159,7 @@ class Office:  # Office class to store office information
 
     def send_email(self, mailto, subject, sender):
         # validation for the email with regex
-        if re.match(r'^[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]+\.[a-zA-Z]{2,5}$', mailto and sender):
+        if re.match(r'^[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]+\.[a-zA-Z]{2,5}$', mailto or sender):
             # execute the query to insert the email to the database
             cur.execute(f"insert into email (mailto, subject, sender) values ('{mailto}', '{subject}', '{sender}')")
             print("email sent")
