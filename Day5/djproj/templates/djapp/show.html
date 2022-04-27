@@ -1,20 +1,45 @@
+{% extends 'djapp/base.html' %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Student Details Screen</h1>
-    <a href="{% url 'home' %}">Back</a>
-    <hr />
-    <b>First Name: </b> {{ st.fname }}
-    <b>Last Name: </b> {{ st.lname }}
-    <b>Age: </b> {{ st.age }}
-    <b>Graduated: </b> {{ st.is_adult }}
-    <b>Track: </b> {{ st.student_track }}
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    {% block title_block %}
+    <h1>This is show page</h1>
+    {% endblock %} {% block main_block %}
+    <div class="card m-5" style="width: 18rem">
+      <img
+        class="card-img-top"
+        src="{% static 'img/image.png' %}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h3 class="card-title">Student Details</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>First Name:</b> {{ student.fname }}</li>
+        <li class="list-group-item"><b>Last Name:</b> {{ student.lname }}</li>
+        <li class="list-group-item"><b>Age:</b> {{ student.age }}</li>
+        <li class="list-group-item"><b>Adult:</b> {{ student.is_adult }}</li>
+        <li class="list-group-item">
+          <b>Track:</b> {{ student.student_track }}
+        </li>
+      </ul>
+      <div class="card-body">
+        <a href="{% url 'home' %}" class="card-link btn btn-primary">Back</a>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
 </html>
